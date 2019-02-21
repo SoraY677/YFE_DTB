@@ -1,4 +1,4 @@
-var chrom = 2; // 染色体数　回転角、左右 出来れば次の手での撃破率を入れたい
+var chrom = 3; // 染色体数　回転角、左右,順位 出来れば次の手での撃破率を入れたい
 var herd = 50; //　個体数
 var elite = 2; //保存エリート数
 var gene = 50; //世代数
@@ -21,6 +21,7 @@ while (cnt < gene) {
                 //ランダムに個体を生成する
                 indi[i][0] = Math.random() * spin;
                 indi[i][1] = Math.random() * move;
+                console.log(indi[i][0],indi[i][1]);
             }
         }
 
@@ -32,7 +33,7 @@ while (cnt < gene) {
     }
 
     function cal_fit();//適応度計算
-    function sort();//適応度順に並び変え
+    function sort(0,herd-1);//適応度順に並び変え
 
     cnt++;
 }
