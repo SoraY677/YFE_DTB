@@ -1,5 +1,19 @@
+var chrom = 2; // 染色体数　回転角、左右 出来れば次の手での撃破率を入れたい
+var herd = 50; //　個体数
+var elite = 2; //保存エリート数
+var gene = 50; //世代数
+var muta = 11; //突然変異の確率分母
+
+var move = 20; //横の長さの仮の数値,画面端からいくつかの意
+var spin = 8; //360度回すまでの操作数
+
+var indi[herd][chrom]; //一個体
+var fit[herd];
+var nextindi[herd][chrom];
+
+var cnt = 0;
 //適応度計算
-function cal_fit(){}
+function cal_fit() {}
 //順位による並べ替え
 function sort(leftsta, rightsta) {
 
@@ -55,26 +69,55 @@ function sort(leftsta, rightsta) {
     }
 }
 //親の選択
-function pare_choice(){}
+function pare_choice() {
+    //Cでの同機能を改変
+
+    var num = herd,
+        r, i, j, h, parent[2];
+    var sum;
+
+    CanvasRenderingContext2D side1, side2;
+
+    //優秀な２個体を保存
+    for (h = 0; h < N; h++) {
+
+        nextindi[0][h] = indi[0][h];
+        nextindi[1][h] = indi[1][h];
+
+    }
+
+
+    //優秀な２個体を保存するためにiはeliteからスタート
+    for (i = elite; i < herd; i += 2) {
+
+        //ランキング選択による選別
+        for (j = 0; j < 2; j++) {
+
+            num = herd;
+            //個体数１～herdまですべて足した値と同じ値をこの式で求める。
+            sum = (long)((herd + 1) * herd / 2);
+            //sum以下の数からrをランダムに選ぶ
+            r = ((rand() << 16) + (rand() << 1) + rand() % 2) % sum + 1;
+
+            //numの値をrから引きながら、numをだんだん小さくしていく。ｒがnum以下になったときの個体数引くnumが親となる
+            while (num < r) {
+
+                r -= num;
+                num--;
+
+            }
+
+            parent[j] = herd - num;
+
+        }
+    }
+}
 //交叉
-function cross(){}
+function cross() {}
 //突然変異
-function muta(){}
+function muta() {}
 
-var chrom = 2; // 染色体数　回転角、左右 出来れば次の手での撃破率を入れたい
-var herd = 50; //　個体数
-var elite = 2; //保存エリート数
-var gene = 50; //世代数
-var muta = 11; //突然変異の確率分母
 
-var move = 20; //横の長さの仮の数値,画面端からいくつかの意
-var spin = 8; //360度回すまでの操作数
-
-var indi[herd][chrom]; //一個体
-var fit[herd];
-var nextindi[herd][chrom];
-
-var cnt = 0;
 
 //ここでデータを取得する
 while (cnt < gene) {
