@@ -1,19 +1,21 @@
-var chrom = 2; // 染色体数　回転角、左右 出来れば次の手での撃破率を入れたい
+var chrom = 2; // 染色体数　回転角、左右
 var herd = 50; //　個体数
 var elite = 2; //保存エリート数
 var gene = 50; //世代数
 var muta = 100; //突然変異の確率分母
 
-var move = 20; //横の長さの仮の数値,画面端からいくつかの意
+var move = 20; //横の長さの仮の数値,画面左端からいくつかの意
 var spin = 8; //360度回すまでの操作数
 
 var indi[herd][chrom]; //一個体
-var fit[herd];
-var nextindi[herd][chrom];
+var fit[herd]; //適応度 出来れば次の手での撃破率を入れたい
+var nextindi[herd][chrom]; //次世代の個体群
 
 var cnt = 0;
 //適応度計算
-function cal_fit() {}
+function cal_fit() { //実機ができてから
+    //次の手を適当なダミーブロック、または全ブロックでシミュレーションして次の手での撃破率を測りたい。
+}
 //順位による並べ替え
 function sort(leftsta, rightsta) {
 
@@ -68,9 +70,26 @@ function sort(leftsta, rightsta) {
         right--;
     }
 }
+//交叉
+function cross(i, parent) {
+    //一様交叉
+    var side1, side2, k;
+    //ランダムに両方の親の染色体を入れ替え、新たに2つの個体として次の世代に残す。
+
+
+    for (k = 0; k < chrom; k++) {
+
+        side1 = 1;
+        side2 = Math.random() * 2;
+        side1 -= side2;
+        nextindi[i][k] = indi[parent[side1]][k];
+        nextindi[i + 1][k] = indi[parent[side2]][k];
+
+    }
+}
 //親の選択
 function pare_choice() {
-    //Cでの同機能を改変
+    //Cでの同機能を改変 ランキング選択
 
     var num = herd,
         r, i, j, h, parent[2];
@@ -110,33 +129,21 @@ function pare_choice() {
             parent[j] = herd - num;
 
         }
+        cross(i, parent); //交叉
     }
+    //個体のコピー
+    memcpy(indi, nextindi, sizeof(indi));
 }
-//交叉
-function cross() {
-    var side1, side2, k;
-    //ランダムに両方の親の染色体を入れ替え、新たに2つの個体として次の世代に残す。
 
-
-    for (k = 0; k < chrom; k++) {
-
-        side1 = 1;
-        side2 = Math.random()*2;
-        side1 -= side2;
-        nextindi[i][k] = indi[parent[side1]][k];
-        nextindi[i + 1][k] = indi[parent[side2]][k];
-
-    }
-}
 //突然変異
 function muta() {
     var i, k;
 
-    for (i = elite ; i < herd;i++) {
+    for (i = elite; i < herd; i++) {
 
         for (k = 0; k < chrom; k++) {
 
-            if (Math.random()* muta < 1) {
+            if (Math.random() * muta < 1) {
 
                 indi[i][k] = abs(indi[i][k] - 1);
                 //INDI個の個体のうち一つの染色体のうち一つを別の染色体にする
@@ -144,12 +151,14 @@ function muta() {
             }
 
         }
-        
-    }}
+
+    }
+}
 
 
 
-//ここでデータを取得する
+//メイン処理
+//ここでデータを取得する                                                        
 while (cnt < gene) {
     var i = 0,
         if (cnt < 1) {
@@ -162,8 +171,8 @@ while (cnt < gene) {
         }
 
     if (cnt > 0) {
-        pare_choice(); //親の選択
-        cross(); //交叉
+        pare_choice(); //親の選択・交叉
+
 
         muta(); //突然変異
     }
