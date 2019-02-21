@@ -1,8 +1,9 @@
 //適応度計算
-function cal_fit()
+function cal_fit(){}
 //順位による並べ替え
-function sort(int leftsta, int rightsta) {
+function sort(leftsta, rightsta) {
 
+    //仮にC言語での同機能を移植、改変している
     var left = leftsta,
         right = rightsta,
         Gtmp;
@@ -54,14 +55,13 @@ function sort(int leftsta, int rightsta) {
     }
 }
 //親の選択
-function pare_choice(); 
+function pare_choice(){}
 //交叉
-function cross(); 
-
+function cross(){}
 //突然変異
-function muta()//突然変異
+function muta(){}
 
-var chrom = 3; // 染色体数　回転角、左右,順位 出来れば次の手での撃破率を入れたい
+var chrom = 2; // 染色体数　回転角、左右 出来れば次の手での撃破率を入れたい
 var herd = 50; //　個体数
 var elite = 2; //保存エリート数
 var gene = 50; //世代数
