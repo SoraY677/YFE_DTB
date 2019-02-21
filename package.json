@@ -1,0 +1,15 @@
+{
+  "name": "yfe-dtb",
+  "version": "1.0.0",
+  "description": "\"# YFE_DTB\"",
+  "main": "main.js",
+  "dependencies": {
+    "matter-js": "^0.14.2",
+    "parcel-bundler": "^1.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"parcel index.html"
+  }
+}
