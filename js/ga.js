@@ -56,7 +56,7 @@ function sort(leftsta, rightsta) {
         fit[right] = Ftmp;
 
         //入れ替え（染色体）
-        for (i = 0; i < N; i++) {
+        for (i = 0; i < chrom; i++) {
 
             Gtmp = indi[left][i];
             indi[left][i] = indi[right][i];
@@ -132,10 +132,10 @@ while (cnt < gene) {
         }
 
     if (cnt > 0) {
-        function pare_choice(); //親の選択
-        function cross(); //交叉
+        pare_choice(); //親の選択
+        cross(); //交叉
 
-        function muta(); //突然変異
+        muta(); //突然変異
     }
 
     cal_fit(); //適応度計算
