@@ -79,7 +79,7 @@ function pare_choice() {
     CanvasRenderingContext2D side1, side2;
 
     //優秀な２個体を保存
-    for (h = 0; h < N; h++) {
+    for (h = 0; h < chrom; h++) {
 
         nextindi[0][h] = indi[0][h];
         nextindi[1][h] = indi[1][h];
@@ -113,9 +113,39 @@ function pare_choice() {
     }
 }
 //交叉
-function cross() {}
+function cross() {
+    var side1, side2, k;
+    //ランダムに両方の親の染色体を入れ替え、新たに2つの個体として次の世代に残す。
+
+
+    for (k = 0; k < chrom; k++) {
+
+        side1 = 1;
+        side2 = Math.random()*2;
+        side1 -= side2;
+        nextindi[i][k] = indi[parent[side1]][k];
+        nextindi[i + 1][k] = indi[parent[side2]][k];
+
+    }
+}
 //突然変異
-function muta() {}
+function muta() {
+    var i, k;
+
+    for (i = elite ; i < herd;i++) {
+
+        for (k = 0; k < chrom; k++) {
+
+            if (Math.random()* muta < 1) {
+
+                indi[i][k] = abs(indi[i][k] - 1);
+                //INDI個の個体のうち一つの染色体のうち一つを別の染色体にする
+
+            }
+
+        }
+        
+    }}
 
 
 
