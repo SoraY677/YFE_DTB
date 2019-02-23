@@ -35,15 +35,11 @@ World.add(engine.world, [
     Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
 ]);
 
-var animal = new Animal(new Point(100,100),new Size(100,100),Matter);
-
-// create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80);
-var boxB = Bodies.rectangle(450, 50, 80, 80);
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+var animal = [new Animal(new Point(100,100),new Size(100,100),Matter)];
+var animallength = 1;
 
 // add all of the bodies to the world
-World.add(engine.world, [animal.getBall(Bodies), boxB, ground]);
+World.add(engine.world, [animal[0].getBall(Bodies)]);
 // add mouse control
 var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -65,14 +61,17 @@ Render.lookAt(render, {
     max: { x: 800, y: 600 }
 });
 
+//マウスのクリックが離された時の動作
 Events.on(mouseConstraint,'mouseup',function(Event){
     console.log("mouse up")
-    animal.dropObject(Body);
+    animal[animallength-1].dropObject(Body);
+    animallength = animal.push(new Animal(new Point(Event.mouse.position.x,50),new Size(100,100),Matter))
+    World.add(engine.world, animal[animallength-1].getBall(Bodies));
 });
 
 //マウスが動いた際の処理
 Events.on(mouseConstraint,"mousemove",function(Event){
-    animal.moveObject(Event.mouse.position.x,50)
+    animal[animallength-1].moveObject(Event.mouse.position.x,50)
 });
 
 // run the engine
