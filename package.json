@@ -10,6 +10,16 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"parcel index.html"
-  }
+    "dev": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoraY677/YFE_DTB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoraY677/YFE_DTB/issues"
+  },
+  "homepage": "https://github.com/SoraY677/YFE_DTB#readme"
 }
