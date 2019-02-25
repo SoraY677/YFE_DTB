@@ -61,6 +61,7 @@ Render.lookAt(render, {
     max: { x: 800, y: 600 }
 });
 
+
 //マウスのクリックが離された時の動作
 Events.on(mouseConstraint,'mouseup',function(Event){
     console.log("mouse up")
