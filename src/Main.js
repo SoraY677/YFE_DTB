@@ -1,7 +1,5 @@
 import * as Matter from "matter-js";
 import {MainManager} from "./MainManager"
-import {Point} from "./Point";
-import { StackObj } from "./StackObj";
 
 // module aliases
 var Engine = Matter.Engine,
@@ -15,6 +13,8 @@ var Engine = Matter.Engine,
 
 // create an engines
 var engine = Engine.create();
+engine.world.gravity.x = 0;
+engine.world.gravity.y = 0.7;
 
 // create a renderer
 var render = Render.create({
@@ -23,21 +23,12 @@ var render = Render.create({
     options: {
         width: 800,
         height: 800,
-        showAngleIndicator: true,
-        showCollisions: true
     }
 });
 
-// add bodies
-World.add(engine.world, [
-    // ??
-    Bodies.rectangle(400, 600, 600, 50, { isStatic: true }),
-]);
+//総合管理マネージャーインスタンス
+var manager = new MainManager(render.options.width,render.options.height,Matter,engine);
 
-var stackobj = [new StackObj(new Point(100,100),new Point(100,100),1,Matter)];
-
-// add all of the bodies to the world
-World.add(engine.world, [stackobj[0].getShape(Bodies)]);
 // add mouse control
 var mouse = Mouse.create(render.canvas),
     mouseConstraint = MouseConstraint.create(engine, {
@@ -55,23 +46,19 @@ render.mouse = mouse;
 // fit the render viewport to the scene
 Render.lookAt(render, {
     min: { x: 0, y: 0 },
-    max: { x: 800, y: 600 }
+    max: { x:manager.WINDOW_WIDTH, y:manager.WINDOW_HEIGHT}
 });
 
+manager.ResetGame();
 
-//?????????????????
+//クリック離された際の処理
 Events.on(mouseConstraint,'mouseup',function(Event){
-    //console.log("mouse up");
-    stackobj[stackobj.length-1].dropObject(Body);
-    stackobj.push(new StackObj(new Point(Event.mouse.position.x,50),new Point(100,100), 1 ,Matter))
-    World.add(engine.world, stackobj[stackobj.length-1].getShape(Bodies));
+    manager.MouseupEvent(Event);
 });
 
-//???????????
+//マウスが動いた際の処理
 Events.on(mouseConstraint,"mousemove",function(Event){
-    stackobj[stackobj.length-1].moveObject(Event.mouse.position.x,50);
-    //console.log(stackobj[0].getBall().speed);
-    if(stackobj[0].dropJudge(0,800,600))console.log("object drop out!");
+    manager.MousemoveEvent(Event);
 });
 
 // run the engine

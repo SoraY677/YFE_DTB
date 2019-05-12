@@ -14,26 +14,59 @@ export class StackObj{
         //種類によって返す掵形を変える
         switch(skind){
             //四角形
-            case 1:
+            case 0:
             this.shape = this.Bodies.rectangle(point.x,point.y,size.x,size.y,{
                 //??????true?false???
                 isStatic: true,
                 render: {
-                    lineWidth: 1,
+                    lineWidth: 0.2,
                     hasBounds: false,
                     enabled:true,
+                    restitution: 1,
                     strokeStyle: '#d04030',
-                    friction: 0.5,
+                    friction: 1.0,
+                    frictionStatic:10,
+                    frictionAir : 1.0,
                     fillStyle: '#d04030'
                 }
             });
-            return ;
+            break;
             //三角形
-            case 2:
-            return;
+            case 1:
+            this.shape = this.Bodies.rectangle(point.x,point.y,20,20,{
+                //??????true?false???
+                isStatic: true,
+                render: {
+                    lineWidth: 0.2,
+                    hasBounds: false,
+                    enabled:true,
+                    restitution: 1,
+                    strokeStyle: '#d04030',
+                    friction: 1,
+                    frictionStatic:0,
+                    frictionAir : 1.0,
+                    fillStyle: '#d04030'
+                }
+            });
+            break;
             //四角
-            case 3:
-            return;
+            case 2:
+            this.shape = this.Bodies.rectangle(point.x,point.y,20,50,{
+                //??????true?false???
+                isStatic: true,
+                render: {
+                    lineWidth: 0.2,
+                    hasBounds: false,
+                    enabled:true,
+                    restitution: 1,
+                    strokeStyle: '#d04030',
+                    friction: 1.0,
+                    frictionStatic:10,
+                    frictionAir : 1,
+                    fillStyle: '#d04030'
+                }
+            });
+            break;
         }
 
     }
@@ -53,6 +86,8 @@ export class StackObj{
     //?????????????????????
     dropObject(){
         this.Matter.Body.setStatic(this.shape,false);
+        //console.log(this.shape.position.x);
+        this.Matter.Body.setPosition(this.shape,{x:this.shape.position.x,y:this.shape.position.y+80});
         this.dropflag = 1;
     }
 
@@ -60,7 +95,7 @@ export class StackObj{
     moveObject(ox,oy){
         //console.log("x:",ox,"y:",oy);
         if(this.dropflag == 0)this.Matter.Body.setPosition(this.shape,{x:ox,y:oy});
-        //console.log(this.shape.position);   
+        //console.log(this.shape.position);
     }
 
     //画面外落下判定
@@ -70,12 +105,11 @@ export class StackObj{
     //windowdown:下
     //返値戞落下したかどうかの判定(true:画面外落下判定時,false:画面内)
     dropJudge(windowleft,windowdown,windowright){
-        //x畋標擣分
+        //x成分
         if(this.shape.position.x < windowleft)return true;
         else if(this.shape.position.x > windowright)return true;
-        //y擣分
+        //y成分
         if(this.shape.position.y > windowdown)return true;
-
         return false
     }
 
